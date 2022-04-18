@@ -32,17 +32,18 @@ void loop() {
   unsigned long current_time = millis(); // determines how much time has passed
   if (current_time - previousMillis >= morn_night && switch1 == 0 ) {
     previousMillis = current_time;
-    loud = 1; 
+    loud = 1;
+    switch1 = 0; 
   }
   // has one time cycle passed and have pills been take
   if (digitalRead(reset_weight) == HIGH) {
     float base_weight = weight;
-    delay(time_filter); // delay so weird shit doesn't happen if program loops before unpressed Ya'know 
+    delay(time_filter); // delay so weird shit doesn't happen if program loops before unpressed Ya'know; this is how the base weight is set otherwise the program won't run.
   }
   if (weight - base_weight >= diff){
     delay(time_filter);
     float error_weight = scale.get_units();
-    if (error_weight - weight < margin && error_weight - weight > -1*margin){
+    if (error_weight - weight > margin ){
       switch1 = 1;
     } 
   } 
